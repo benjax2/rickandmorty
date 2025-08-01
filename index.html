@@ -5,50 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rick and Morty - Web Site</title>
     <link rel="stylesheet" href="./output.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+    <script src="./main.js" defer></script>
   </head>
-  <body>
+  <body class="flex flex-col min-h-screen bg-slate-600" style="font-family: 'Luckiest Guy', cursive;">
     <header
-      class="bg-blue-600 text-white p-4 flex justify-between items-center"
+      class="bg-slate-500 text-white p-4 flex flex-col justify-center items-center text-xl gap-4"
     >
-      <nav class="mt-2">
+        <h1 class="text-5xl font-bold" style="font-family: 'Luckiest Guy', cursive;">
+            Rick and Morty
+        </h1>
+      <nav class="mt-2 ">
         <ul class="flex space-x-4">
-          <li><a href="#" class="text-white hover:underline">Inicio</a></li>
-          <li><a href="#" class="text-white hover:underline">About</a></li>
-          <li><a href="#" class="text-white hover:underline">Contact</a></li>
+          <li><a href="#" class="text-white hover:underline">Personajes principales</a></li>
+          <li><a href="#" class="text-white hover:underline">Doblajes</a></li>
+          <li><a href="#" class="text-white hover:underline">Temporadas</a></li>
         </ul>
       </nav>
-    </header>
 
-    <body class="flex flex-col min-h-screen bg-gray-100">
-      <!-- HERO SECTION -->
-      <section class="relative w-full h-[90vh] md:h-screen bg-cover bg-center">
-        <img src="./img/desktop.jpg" alt="hero-desktop" class="" />
-      </section>
+  </header>
 
-      <div class="container mx-auto p-4">
-        <h1 class="text-3xl font-bold mb-4">Rick and Morty Characters</h1>
-        <div
-          id="characters"
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-        >
-          <!-- Character cards will be injected here -->
-        </div>
-      </div>
-    </body>
+  <!-- HERO SECTION -->
+  <section class="relative w-full h-[90vh] md:h-screen bg-cover bg-center">
+    <img src="./img/desktop.jpg" alt="hero-desktop" class="" />
+  </section>
 
-    <script src="./main.js"></script>
+
+  <!-- SEARCH BAR -->
+  <div class="w-full flex flex-col items-center my-6 px-2 text-white gap-4">
+    <input
+      type="text"
+      id="search-bar"
+      placeholder="Buscar personaje..."
+      class="w-full max-w-md px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-base sm:text-lg mb-2"
+    />
+    <div class="w-full max-w-2xl flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center">
+      <select id="status-filter" class="px-4 py-2 rounded-lg border border-gray-300 text-black">
+        <option value="" class="text-white">Estado</option>
+        <option value="alive">Vivo</option>
+        <option value="dead">Muerto</option>
+        <option value="unknown">Desconocido</option>
+      </select>
+      <select id="species-filter" class="px-4 py-2 rounded-lg border border-gray-300 text-black">
+        <option value="">Especie</option>
+        <option value="Human">Humano</option>
+        <option value="Alien">Alien</option>
+        <option value="Robot">Robot</option>
+        <option value="Animal">Animal</option>
+        <option value="unknown">Desconocido</option>
+      </select>
+      <select id="gender-filter" class="px-4 py-2 rounded-lg border border-gray-300 text-black">
+        <option value="">Género</option>
+        <option value="male">Masculino</option>
+        <option value="female">Femenino</option>
+        <option value="genderless">Sin género</option>
+        <option value="unknown">Desconocido</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="container mx-auto p-2 sm:p-4">
+    <h1 class="text-3xl font-bold mt-20 mb-20 sm:text-4xl md:text-5xl text-center text-white" style="font-family: 'Luckiest Guy', cursive;">Rick and Morty Characters</h1>
+    <div
+      id="characters"
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4"
+    >
+      <!-- Character cards will be injected here -->
+    </div>
+  </div>
+
   </body>
-</html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./output.css">
-    <script src="./main.js" defer></script>
-</head>
-<body>
-    <!-- Contenedor principal -->
-<div id="contenedor" class="grid grid-cols-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 p-4 "></div>
-
-</body>
-</html>

@@ -1,48 +1,38 @@
-async function traerpokemones(numeroInicialPokemones) {
-  contenedor.innerHTML = '';
-  for (let i = numeroInicialPokemones; i < numeroInicialPokemones + 10; i++) {
-    let respuesta = await fetch(
-      `https://rickandmortyapi.com/api/character/${i}`
-    );
-    let data = await respuesta.json();
-    renderizarPersonajes(data);
-  }
-}
 
 // Función para renderizar cada personaje en una tarjeta
 function renderizarPersonaje(personaje) {
-  const contenedor = document.getElementById('contenedor');
+  const contenedor = document.getElementById('characters');
   const tarjeta = document.createElement('div');
   tarjeta.className =
-    'bg-white rounded-lg shadow-md overflow-hidden transform transition duration-300 hover:scale-105';
+    'bg-[#22223b] border-2 border-[#39FF14] rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 min-h-[340px] flex flex-col justify-between';
 
   tarjeta.innerHTML = `
-    <img src="${personaje.image}" alt="${personaje.name}" class="w-120 h-60 object-cover">
-    <div class="p-4">
-      <h2 class="text-xl font-semibold mb-2">${personaje.name}</h2>
-      <p class="text-gray-600">Especie: ${personaje.species}</p>
-      <p class="text-gray-600">Estado: ${personaje.status}</p>
+    <img src="${personaje.image}" alt="${personaje.name}" class="w-full h-56 object-cover">
+    <div class="p-6 flex flex-col items-center">
+      <h2 class="text-2xl md:text-3xl font-bold mb-2 text-[#39FF14] text-center" style="font-family: 'Luckiest Guy', cursive;">${personaje.name}</h2>
+      <p class="text-lg text-gray-300 text-center"> ${personaje.species}</p>
+      <p class="text-lg text-gray-300 text-center"> ${personaje.status}</p>
     </div>
   `;
 
   contenedor.appendChild(tarjeta);
 }
 
-// Función para traer 10 personajes desde un ID inicial
+
 async function traerpokemones(numeroInicialPersonajes) {
-  const contenedor = document.getElementById('contenedor');
+  const contenedor = document.getElementById('characters');
   contenedor.innerHTML = '';
 
-  for (let i = numeroInicialPersonajes; i < numeroInicialPersonajes + 10; i++) {
+  for (let i = numeroInicialPersonajes; i < numeroInicialPersonajes + 12; i++) {
     try {
       const respuesta = await fetch(
         `https://rickandmortyapi.com/api/character/${i}`
       );
-      const data = await respuesta.json();
-      renderizarPersonaje(data);
-      if (!response.ok) {
+      if (!respuesta.ok) {
         throw new Error('No se pudo encontrar el resultado');
       }
+      const data = await respuesta.json();
+      renderizarPersonaje(data);
     } catch (error) {
       console.error(`Error al cargar el personaje ${i}`, error);
     }
