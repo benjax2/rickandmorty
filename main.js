@@ -1,22 +1,20 @@
-let contenedor = document.querySelector("#contenedor");
-
 async function traerpokemones(numeroInicialPokemones) {
-    contenedor.innerHTML = "";
-    for (let i = numeroInicialPokemones; i < numeroInicialPokemones + 10; i++) {
-    let respuesta = await fetch(`https://rickandmortyapi.com/api/character/${i}`);
+  contenedor.innerHTML = '';
+  for (let i = numeroInicialPokemones; i < numeroInicialPokemones + 10; i++) {
+    let respuesta = await fetch(
+      `https://rickandmortyapi.com/api/character/${i}`
+    );
     let data = await respuesta.json();
     renderizarPersonajes(data);
-    }
+  }
 }
-
-
-
 
 // Función para renderizar cada personaje en una tarjeta
 function renderizarPersonaje(personaje) {
-  const contenedor = document.getElementById("contenedor");
-  const tarjeta = document.createElement("div");
-  tarjeta.className = "bg-white rounded-lg shadow-md overflow-hidden transform transition duration-300 hover:scale-105";
+  const contenedor = document.getElementById('contenedor');
+  const tarjeta = document.createElement('div');
+  tarjeta.className =
+    'bg-white rounded-lg shadow-md overflow-hidden transform transition duration-300 hover:scale-105';
 
   tarjeta.innerHTML = `
     <img src="${personaje.image}" alt="${personaje.name}" class="w-120 h-60 object-cover">
@@ -32,15 +30,21 @@ function renderizarPersonaje(personaje) {
 
 // Función para traer 10 personajes desde un ID inicial
 async function traerpokemones(numeroInicialPersonajes) {
-  const contenedor = document.getElementById("contenedor");
-  contenedor.innerHTML = "";
+  const contenedor = document.getElementById('contenedor');
+  contenedor.innerHTML = '';
 
   for (let i = numeroInicialPersonajes; i < numeroInicialPersonajes + 10; i++) {
     try {
-      const respuesta = await fetch(`https://rickandmortyapi.com/api/character/${i}`);
+      const respuesta = await fetch(
+        `https://rickandmortyapi.com/api/character/${i}`
+      );
       const data = await respuesta.json();
       renderizarPersonaje(data);
-      if (!respuesta.ok){
+
+      if (!respuesta.ok)
+
+      {
+ 
         throw new Error('No se pudo encontrar el resultado');
       }
     } catch (error) {
@@ -51,6 +55,7 @@ async function traerpokemones(numeroInicialPersonajes) {
 
 // Llama a la función con el ID inicial que quieras
 traerpokemones(1);
+
 
 let next = document.querySelector("#siguiente");
 let contador = 1;
@@ -67,3 +72,5 @@ ant.addEventListener("click", function (e) {
     traerpokemones(contador);
   }
 });
+
+
