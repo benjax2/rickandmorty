@@ -1,4 +1,3 @@
-
 // Función para renderizar cada personaje en una tarjeta
 function renderizarPersonaje(personaje) {
   const contenedor = document.getElementById('characters');
@@ -17,13 +16,12 @@ function renderizarPersonaje(personaje) {
 
   contenedor.appendChild(tarjeta);
 }
-
-
-async function traerpokemones(numeroInicialPersonajes) {
-  const contenedor = document.getElementById('characters');
+// Carga inicial: 12 personajes (por ID)
+async function traerPersonajes(desdeId = 1) {
+  const contenedor = document.getElementById('contenedor');
   contenedor.innerHTML = '';
 
-  for (let i = numeroInicialPersonajes; i < numeroInicialPersonajes + 12; i++) {
+  for (let i = desdeId; i < desdeId + 12; i++) {
     try {
       const respuesta = await fetch(
         `https://rickandmortyapi.com/api/character/${i}`
@@ -34,10 +32,49 @@ async function traerpokemones(numeroInicialPersonajes) {
       const data = await respuesta.json();
       renderizarPersonaje(data);
     } catch (error) {
-      console.error(`Error al cargar el personaje ${i}`, error);
+      console.error(`Error con el personaje ID ${i}:`, error.message);
     }
   }
 }
 
-// Llama a la función con el ID inicial que quieras
-traerpokemones(1);
+// Búsqueda por nombre
+async function buscarPorNombre() {
+  const contenedor = document.getElementById('contenedor');
+  const input = document.getElementById('busqueda-nombre');
+  const nombre = input.value.trim().toLowerCase();
+
+  contenedor.innerHTML = '';
+
+  if (!nombre) {
+    contenedor.innerHTML =
+      '<p class="text-red-600 p-4">Ingresa un nombre válido.</p>';
+    return;
+  }
+
+  try {
+    const respuesta = await fetch(
+      `https://rickandmortyapi.com/api/character/?name=${nombre}`
+    );
+    if (!respuesta.ok) throw new Error('No se encontró el personaje');
+    const data = await respuesta.json();
+    data.results.forEach((personaje) => renderizarPersonaje(personaje));
+  } catch (error) {
+    contenedor.innerHTML = `<p class="text-red-600 p-4">Error: ${error.message}</p>`;
+  }
+}
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', () => {
+  // Carga inicial
+  traerPersonajes(1);
+
+  // Búsqueda
+  const inputNombre = document.getElementById('busqueda-nombre');
+  const botonBuscar = document.getElementById('btn-buscar');
+
+  inputNombre.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') buscarPorNombre();
+  });
+
+  botonBuscar.addEventListener('click', buscarPorNombre);
+});
