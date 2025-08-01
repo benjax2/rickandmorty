@@ -19,12 +19,12 @@ function renderizarPersonaje(personaje) {
   contenedor.appendChild(tarjeta);
 }
 
-// Carga inicial: 10 personajes (por ID)
+// Carga inicial: 12 personajes (por ID)
 async function traerPersonajes(desdeId = 1) {
   const contenedor = document.getElementById('contenedor');
   contenedor.innerHTML = '';
 
-  for (let i = desdeId; i < desdeId + 10; i++) {
+  for (let i = desdeId; i < desdeId + 12; i++) {
     try {
       const respuesta = await fetch(
         `https://rickandmortyapi.com/api/character/${i}`
