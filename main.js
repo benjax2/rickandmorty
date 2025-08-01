@@ -1,76 +1,81 @@
-async function traerpokemones(numeroInicialPokemones) {
-  contenedor.innerHTML = '';
-  for (let i = numeroInicialPokemones; i < numeroInicialPokemones + 10; i++) {
-    let respuesta = await fetch(
-      `https://rickandmortyapi.com/api/character/${i}`
-    );
-    let data = await respuesta.json();
-    renderizarPersonajes(data);
-  }
-}
-
-// Función para renderizar cada personaje en una tarjeta
+// Renderiza una tarjeta de personaje
 function renderizarPersonaje(personaje) {
   const contenedor = document.getElementById('contenedor');
+
   const tarjeta = document.createElement('div');
   tarjeta.className =
     'bg-white rounded-lg shadow-md overflow-hidden transform transition duration-300 hover:scale-105';
 
   tarjeta.innerHTML = `
-    <img src="${personaje.image}" alt="${personaje.name}" class="w-120 h-60 object-cover">
+    <img src="${personaje.image}" alt="${personaje.name}" class="w-full h-60 object-cover">
     <div class="p-4">
       <h2 class="text-xl font-semibold mb-2">${personaje.name}</h2>
       <p class="text-gray-600">Especie: ${personaje.species}</p>
       <p class="text-gray-600">Estado: ${personaje.status}</p>
+      <p class="text-gray-600">Género: ${personaje.gender}</p>
     </div>
   `;
 
   contenedor.appendChild(tarjeta);
 }
 
-// Función para traer 10 personajes desde un ID inicial
-async function traerpokemones(numeroInicialPersonajes) {
+// Carga inicial: 12 personajes (por ID)
+async function traerPersonajes(desdeId = 1) {
   const contenedor = document.getElementById('contenedor');
   contenedor.innerHTML = '';
 
-  for (let i = numeroInicialPersonajes; i < numeroInicialPersonajes + 10; i++) {
+  for (let i = desdeId; i < desdeId + 12; i++) {
     try {
       const respuesta = await fetch(
         `https://rickandmortyapi.com/api/character/${i}`
       );
+      if (!respuesta.ok) throw new Error('No se pudo cargar el personaje');
       const data = await respuesta.json();
       renderizarPersonaje(data);
-
-      if (!respuesta.ok)
-
-      {
- 
-        throw new Error('No se pudo encontrar el resultado');
-      }
     } catch (error) {
-      console.error(`Error al cargar el personaje ${i}`, error);
+      console.error(`Error con el personaje ID ${i}:`, error.message);
     }
   }
 }
 
-// Llama a la función con el ID inicial que quieras
-traerpokemones(1);
+// Búsqueda por nombre
+async function buscarPorNombre() {
+  const contenedor = document.getElementById('contenedor');
+  const input = document.getElementById('busqueda-nombre');
+  const nombre = input.value.trim().toLowerCase();
 
+  contenedor.innerHTML = '';
 
-let next = document.querySelector("#siguiente");
-let contador = 1;
-next.addEventListener("click", function (e) {
-  contador += 10;
-  traerpokemones(contador);
-});
-
-let ant = document.querySelector("#anterior");
-
-ant.addEventListener("click", function (e) {
-  if (contador > 10) {
-    contador -= 10;
-    traerpokemones(contador);
+  if (!nombre) {
+    contenedor.innerHTML =
+      '<p class="text-red-600 p-4">Ingresa un nombre válido.</p>';
+    return;
   }
+
+  try {
+    const respuesta = await fetch(
+      `https://rickandmortyapi.com/api/character/?name=${nombre}`
+    );
+    if (!respuesta.ok) throw new Error('No se encontró el personaje');
+    const data = await respuesta.json();
+    data.results.forEach((personaje) => renderizarPersonaje(personaje));
+  } catch (error) {
+    contenedor.innerHTML = `<p class="text-red-600 p-4">Error: ${error.message}</p>`;
+  }
+}
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', () => {
+  // Carga inicial
+  traerPersonajes(1);
+
+  // Búsqueda
+  const inputNombre = document.getElementById('busqueda-nombre');
+  const botonBuscar = document.getElementById('btn-buscar');
+
+  inputNombre.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') buscarPorNombre();
+  });
+
+  botonBuscar.addEventListener('click', buscarPorNombre);
 });
-
-
