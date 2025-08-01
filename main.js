@@ -40,7 +40,7 @@ async function traerpokemones(numeroInicialPersonajes) {
       const respuesta = await fetch(`https://rickandmortyapi.com/api/character/${i}`);
       const data = await respuesta.json();
       renderizarPersonaje(data);
-      if (!response.ok){
+      if (!respuesta.ok){
         throw new Error('No se pudo encontrar el resultado');
       }
     } catch (error) {
@@ -52,3 +52,18 @@ async function traerpokemones(numeroInicialPersonajes) {
 // Llama a la función con el ID inicial que quieras
 traerpokemones(1);
 
+let next = document.querySelector("#siguiente");
+let contador = 1;
+next.addEventListener("click", function (e) {
+  contador += 10;
+  traerpokemones(contador);
+});
+
+let ant = document.querySelector("#anterior");
+
+ant.addEventListener("click", function (e) {
+  if (contador > 10) {
+    contador -= 10;
+    traerpokemones(contador);
+  }
+});
